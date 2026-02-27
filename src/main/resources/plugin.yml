@@ -1,0 +1,6 @@
+name: WishSMP
+version: 1.0
+main: me.deejay.wishsmp.WishSMP
+api-version: 1.21
+author: deejay
+description: Wish SMP custom class system
