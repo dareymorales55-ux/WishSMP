@@ -1,43 +1,31 @@
 package me.deejay.wishsmp;
 
+import me.deejay.wishsmp.classes.ClassManager;
+import me.deejay.wishsmp.listeners.PlayerJoinListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/**
- * Main class for the WishSMP plugin.
- * Fully expandable for future features.
- */
-public final class WishSMP extends JavaPlugin {
+public class WishSMP extends JavaPlugin {
 
-    private static WishSMP instance;
+    private ClassManager classManager;
 
     @Override
     public void onEnable() {
-        instance = this;
+        // Initialize ClassManager
+        this.classManager = new ClassManager(this);
 
-        getLogger().info("WishSMP Enabled! Ready for expansion.");
+        // Register listener for player joins
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 
-        // Future systems, commands, and listeners can be registered here
-        // Example placeholders:
-        // registerListeners();
-        // registerCommands();
-        // initializeClasses();
+        getLogger().info("WishSMP enabled!");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("WishSMP Disabled! Cleaning up...");
-        // Save or cleanup systems when you expand
+        getLogger().info("WishSMP disabled!");
     }
 
-    /**
-     * Returns the main plugin instance.
-     */
-    public static WishSMP getInstance() {
-        return instance;
+    // Getter for ClassManager
+    public ClassManager getClassManager() {
+        return classManager;
     }
-
-    // Optional expansion points
-    // private void registerListeners() {}
-    // private void registerCommands() {}
-    // private void initializeClasses() {}
 }
