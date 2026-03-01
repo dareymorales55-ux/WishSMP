@@ -4,3 +4,10 @@ main: me.deejay.wishsmp.WishSMP
 api-version: 1.21
 author: deejay
 description: Wish SMP custom class system
+
+commands:
+  givehead:
+    description: Gives a custom Essence head
+    usage: /givehead
+    permission: wishsmp.givehead
+    permission-message: "&cYou must be an OP to use this command!"
