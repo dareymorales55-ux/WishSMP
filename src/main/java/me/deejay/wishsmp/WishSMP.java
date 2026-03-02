@@ -2,7 +2,7 @@ package me.deejay.wishsmp;
 
 import me.deejay.wishsmp.classes.ClassManager;
 import me.deejay.wishsmp.listeners.PlayerJoinListener;
-import me.deejay.wishsmp.items.Essence; // <-- ADD THIS
+import me.deejay.wishsmp.essence.EssenceListener; // <-- NEW listener
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class WishSMP extends JavaPlugin {
@@ -21,9 +21,9 @@ public class WishSMP extends JavaPlugin {
                 this
         );
 
-        // Register Essence listener
+        // Register EssenceListener (handles all essences)
         getServer().getPluginManager().registerEvents(
-                new Essence(this),
+                new EssenceListener(),
                 this
         );
 
@@ -35,6 +35,7 @@ public class WishSMP extends JavaPlugin {
         getLogger().info("WishSMP disabled!");
     }
 
+    // Getter for ClassManager
     public ClassManager getClassManager() {
         return classManager;
     }
