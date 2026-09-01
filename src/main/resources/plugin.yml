@@ -1,13 +1,6 @@
-name: WishSMP
-version: 1.0
-main: me.deejay.wishsmp.WishSMP
-api-version: 1.21
-author: deejay
-description: Wish SMP custom class system
-
-commands:
-  wish:
-    description: Main Wish command
-    usage: /wish <subcommand>
-    permission: wishsmp.use
-    permission-message: "&cYou must be an OP to use this command!"
+name: VesselSMP
+version: '1.0.0'
+main: com.vessel.smp.VesselSMP
+api-version: '26.2'
+author: YourName
+description: Vessel SMP - Spirit essence progression system
