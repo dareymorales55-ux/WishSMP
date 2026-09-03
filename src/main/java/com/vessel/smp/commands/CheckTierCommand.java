@@ -2,15 +2,14 @@ package com.vessel.smp.commands;
 
 import com.vessel.smp.data.PlayerData;
 import com.vessel.smp.data.PlayerDataManager;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
  * /checktier <player> -- admin-only. Returns just the target's raw
- * Essence Level, no tier descriptions, no extra text.
+ * Essence Level, no tier descriptions, no extra text. Works for both
+ * online and offline players by username.
  */
 public class CheckTierCommand implements CommandExecutor {
 
@@ -32,19 +31,13 @@ public class CheckTierCommand implements CommandExecutor {
             return true;
         }
 
-        Player target = Bukkit.getPlayer(args[0]);
-        if (target == null) {
-            sender.sendMessage("Player not found or not online.");
-            return true;
-        }
-
-        PlayerData data = dataManager.get(target);
+        PlayerData data = dataManager.getOffline(args[0]);
         if (data == null) {
-            sender.sendMessage("That player's data hasn't loaded yet.");
+            sender.sendMessage("No data found for that player.");
             return true;
         }
 
-        sender.sendMessage(target.getName() + ": " + data.getEssenceLevel());
+        sender.sendMessage(data.getUsername() + ": " + data.getEssenceLevel());
         return true;
     }
 }
