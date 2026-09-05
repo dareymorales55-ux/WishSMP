@@ -19,7 +19,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
-import java.util.Map;
 
 public class Essence implements Listener {
 
@@ -28,18 +27,6 @@ public class Essence implements Listener {
     private static final TextColor LIGHT_PURPLE = TextColor.color(0xE6CCFF);
     private static final TextColor PURPLE = TextColor.color(0xB266FF);
     private static final TextColor DARK_PURPLE = TextColor.color(0x4B0082);
-
-    private static final Map<Character, Character> SMALL_CAPS = Map.ofEntries(
-            Map.entry('a', 'ᴀ'), Map.entry('b', 'ʙ'), Map.entry('c', 'ᴄ'),
-            Map.entry('d', 'ᴅ'), Map.entry('e', 'ᴇ'), Map.entry('f', 'ꜰ'),
-            Map.entry('g', 'ɢ'), Map.entry('h', 'ʜ'), Map.entry('i', 'ɪ'),
-            Map.entry('j', 'ᴊ'), Map.entry('k', 'ᴋ'), Map.entry('l', 'ʟ'),
-            Map.entry('m', 'ᴍ'), Map.entry('n', 'ɴ'), Map.entry('o', 'ᴏ'),
-            Map.entry('p', 'ᴘ'), Map.entry('q', 'ǫ'), Map.entry('r', 'ʀ'),
-            Map.entry('s', 'ꜱ'), Map.entry('t', 'ᴛ'), Map.entry('u', 'ᴜ'),
-            Map.entry('v', 'ᴠ'), Map.entry('w', 'ᴡ'), Map.entry('x', 'x'),
-            Map.entry('y', 'ʏ'), Map.entry('z', 'ᴢ')
-    );
 
     private final PlayerDataManager dataManager;
     private final Apply apply;
@@ -53,8 +40,8 @@ public class Essence implements Listener {
         ItemStack item = new ItemStack(Material.GHAST_TEAR);
         ItemMeta meta = item.getItemMeta();
 
-        meta.displayName(gradient("Essence", PURPLE, DARK_PURPLE, true));
-        meta.lore(List.of(gradient("Right-click to gain +1 Essence", LIGHT_PURPLE, PURPLE, false)));
+        meta.displayName(gradient("ᴇꜱꜱᴇɴᴄᴇ", PURPLE, DARK_PURPLE, true));
+        meta.lore(List.of(gradient("ʀɪɢʜᴛ-ᴄʟɪᴄᴋ ᴛᴏ ɢᴀɪɴ +1 ᴇꜱꜱᴇɴᴄᴇ", LIGHT_PURPLE, PURPLE, false)));
 
         meta.setEnchantmentGlintOverride(true);
 
@@ -101,15 +88,17 @@ public class Essence implements Listener {
         event.setCancelled(true);
 
         if (data.isFloored()) {
-            player.sendMessage(smallCapsGradient(
-                    "You're disconnected from your Spirit -- recover first.", LIGHT_PURPLE, PURPLE, true));
+            player.sendMessage(gradient(
+                    "ʏᴏᴜ'ʀᴇ ᴅɪꜱᴄᴏɴɴᴇᴄᴛᴇᴅ ꜰʀᴏᴍ ʏᴏᴜʀ ꜱᴘɪʀɪᴛ -- ʀᴇᴄᴏᴠᴇʀ ꜰɪʀꜱᴛ.",
+                    LIGHT_PURPLE, PURPLE, true));
             return;
         }
 
         boolean absorbed = data.absorb();
         if (!absorbed) {
-            player.sendMessage(smallCapsGradient(
-                    "You're already at maximum Essence.", LIGHT_PURPLE, PURPLE, true));
+            player.sendMessage(gradient(
+                    "ʏᴏᴜ'ʀᴇ ᴀʟʀᴇᴀᴅʏ ᴀᴛ ᴍᴀxɪᴍᴜᴍ ᴇꜱꜱᴇɴᴄᴇ.",
+                    LIGHT_PURPLE, PURPLE, true));
             return;
         }
 
@@ -122,17 +111,11 @@ public class Essence implements Listener {
         dataManager.save(data);
         apply.refresh(player);
 
-        player.sendMessage(smallCapsGradient(
-                "You gained an essence, you are now at (" + data.getEssenceLevel() + ")",
-                LIGHT_PURPLE, PURPLE, true));
-    }
-
-    private static String toSmallCaps(String input) {
-        StringBuilder result = new StringBuilder();
-        for (char c : input.toCharArray()) {
-            result.append(SMALL_CAPS.getOrDefault(Character.toLowerCase(c), c));
-        }
-        return result.toString();
+        Component message = gradient("ʏᴏᴜ ɢᴀɪɴᴇᴅ ᴀɴ ᴇꜱꜱᴇɴᴄᴇ, ʏᴏᴜ ᴀʀᴇ ɴᴏᴡ ᴀᴛ (",
+                LIGHT_PURPLE, PURPLE, true)
+                .append(Component.text(String.valueOf(data.getEssenceLevel())))
+                .append(gradient(")", LIGHT_PURPLE, PURPLE, true));
+        player.sendMessage(message);
     }
 
     private static Component gradient(String text, TextColor start, TextColor end, boolean bold) {
@@ -150,9 +133,5 @@ public class Essence implements Listener {
         }
 
         return result;
-    }
-
-    private static Component smallCapsGradient(String text, TextColor start, TextColor end, boolean bold) {
-        return gradient(toSmallCaps(text), start, end, bold);
     }
 }
